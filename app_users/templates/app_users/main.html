@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Main</title>
-</head>
-<body>
+{% extends 'app_users/base.html' %}
+
+{% block title %}Main{% endblock %}
+
+{% block body %}
 
 {% if request.user.is_authenticated %}
 <h3> Добро пожаловать, {{request.user.username}} </h3>
@@ -15,7 +13,6 @@
 {% endif %}
 
 <h1>Я главная</h1>
-
 <h2>Список тем</h2>
 <ul>
     {% for item in items %}
@@ -25,5 +22,8 @@
     {% endfor %}
 </ul>
 
-</body>
-</html>
+{% endblock %}
+
+
+
+

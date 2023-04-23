@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, redirect
+from django.urls import reverse
 
 from app_users.forms import CommentForm
 from app_users.models import Item, UserComment
@@ -25,12 +26,6 @@ def item_details(request, pk):
     return render(request, 'app_users/item_details.html', context)
 
 
-
-
-
-
-
-
 #CRUD
 
 def add(request):
@@ -47,8 +42,8 @@ def add(request):
 def update(request,pk):
     comment = UserComment.objects.get(id=pk)
     form=CommentForm(instance=comment)
-    pk = request.POST.get('item')
     if request.method == 'POST':
+        pk = request.POST.get('item')
         form=CommentForm(request.POST, instance=comment)
         if form.is_valid():
             form.save()
@@ -56,19 +51,21 @@ def update(request,pk):
     context={'form':form}
     return render(request, 'app_users/update.html', context)
 
+
 def delete(request, pk):
     comment =UserComment.objects.get(id=pk)
-    # pk = request.POST.get('item')
+    pk=comment.item.pk
     if request.method=="POST":
         comment.delete()
-        return redirect('/main')
-    context={'comment':comment }
+        return redirect(f'/items/{pk}')
+    context={'comment':comment, 'pk':pk}
     return render(request, 'app_users/delete.html', context)
 
 
 #Пользовательская часть
 class MyLoginView(LoginView): #страничка аутентификации
     template_name = 'app_users/login.html'
+    redirect_authenticated_user = True
 
 def MyRegisterView(request): #страничка регистрации
     if request.method=="POST":

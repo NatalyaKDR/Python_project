@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Index</title>
-</head>
-<body>
+{% extends 'app_users/base.html' %}
+
+{% block title %}Add{% endblock %}
+
+{% block body %}
+
 <h2>Добавить  комментарий:</h2>
 <form method="post">
     {% csrf_token %}
@@ -16,7 +15,10 @@
     <button type="submit">Добавить</button>
 </form>
 
-</body>
-</html>
+{% endblock %}
+
+
+
+
 
 

@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'app_users/base.html' %}
+
+{% block title %}Details{% endblock %}
+
+{% block body %}
 
 <h1>{{item.title}}</h1>
 <br>
@@ -22,10 +20,20 @@
         {{comment.text}}
         <a href="{% url 'update' comment.id %}">Update</a>
         <a href="{% url 'delete' comment.id %}">Delete</a>
-
     </li>
     {% endfor %}
 </ul>
 {% endif %}
 
 <a href="{% url 'add' %}" >Добавить комментарий</a>
+<br>
+<a href="{% url 'main' %}" >На главную</a>
+
+{% endblock %}
+
+
+
+
+
+
+

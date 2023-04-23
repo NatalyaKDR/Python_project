@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Index</title>
-</head>
-<body>
+{% extends 'app_users/base.html' %}
+
+{% block title %}Index{% endblock %}
+
+{% block body %}
+
 <a href="/login">Авторизация</a>
 <br>
 <br>
@@ -13,5 +12,4 @@
 <hr>
 <a href="/main">На главную</a>
 
-</body>
-</html>
+{% endblock %}
