@@ -1,6 +1,8 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView, LogoutView
+from django.core.paginator import Paginator
+from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
@@ -18,13 +20,26 @@ def main(request):
     context={'items':items}
     return render(request,'app_users/main.html',context)
 
+def get_test(request, test):
+    if test=="1":
+        return render(request, 'app_users/test_1.html')
+    elif test == "2":
+        return render(request, 'app_users/test_2.html')
+    elif test == "3":
+        return render(request, 'app_users/test_3.html')
+    else:
+        return HttpResponseNotFound("Тест находится в разработке")
 
 def item_details(request, pk):
     item = Item.objects.get(id=pk)
     comments = item.usercomment_set.order_by('-id')
-    context = {'item': item, 'comments': comments,}
-    return render(request, 'app_users/item_details.html', context)
+#пагинация
+    paginator = Paginator(comments, 3)
+    page_number = request.GET.get('page')
+    page_obj=paginator.get_page((page_number))
 
+    context = {'item': item, 'comments': comments, 'page_obj': page_obj}
+    return render(request, 'app_users/item_details.html', context)
 
 #CRUD
 

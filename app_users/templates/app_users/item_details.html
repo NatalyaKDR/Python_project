@@ -7,6 +7,8 @@
 <h1>{{item.title}}</h1>
 <br>
 <p>{{item.content}}</p>
+<br>
+<a href="/tests/{{ item.id }}">Проверь себя</a>
 <hr>
 
 <h3>Комментарии</h3>
@@ -15,13 +17,24 @@
 <p>нет комментариев</p>
 {% else %}
 <ul>
-    {% for comment in comments %}
+    {% for comment in page_obj %}
     <li>
         {{comment.text}}
         <a href="{% url 'update' comment.id %}">Update</a>
         <a href="{% url 'delete' comment.id %}">Delete</a>
     </li>
     {% endfor %}
+
+    <nav>
+        <ul class="pagination">
+        {% for p in page_obj.paginator.page_range %}
+        <li>
+        <a href="?page={{ p }}">{{ p }}</a>
+        </li>
+        {% endfor %}
+            </ul>
+    </nav>
+
 </ul>
 {% endif %}
 

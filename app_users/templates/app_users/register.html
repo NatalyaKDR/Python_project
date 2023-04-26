@@ -1,14 +1,16 @@
-{% extends 'app_users/base.html' %}
 
-{% block title %}Registration{% endblock %}
-
-{% block body %}
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Sign up</button>
 </form>
 
-{% endblock %}
-
+</body>
+</html>
