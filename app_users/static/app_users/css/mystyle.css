@@ -1,0 +1,45 @@
+
+.error{
+    background-color: rgb(228, 122, 143) !important;
+
+}
+.correct{
+    background-color: rgb(122 221 122) !important;
+    z-index: 5;
+}
+.mute{
+    font-size: smaller;
+    color: rgb(80, 83, 83);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+ul {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+img {
+    max-width: 100%;
+}
+
+.container {
+    max-width: 1200px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+
+.text-center {
+    text-align: center;
+}
+
+
+html {
+    background-color: #F1F1F1;
+}

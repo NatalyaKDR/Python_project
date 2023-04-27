@@ -1,9 +1,37 @@
-{% extends 'app_users/tests.html' %}
+{% extends 'app_users/my_tests.html' %}
 
 {% block title %}Test_1{% endblock %}
 
 {% block body %}
 
-<h2>Тест 1</h2>
+<div class="container">
+      <form name="test" id="form">
+        <h2 class="text-center">Впишите в ячейки перевод слов и выражений на турецкий язык</h2>
+        <h3>Положительная форма</h3>
+        <ol>
+            <li><input type="text" class="exercises_field" data_answer="ben geliyorum" placeholder="Я иду"> <span class="mute">(gelmek)</span></li>
+            <li><input type="text" class="exercises_field" data_answer="sen duruyorsun" placeholder="Ты стоишь"> <span class="mute">(durmak)</span></li>
+            <li><input type="text" class="exercises_field" data_answer="biz dans ediyoruz" placeholder="Мы танцуем"> <span class="mute">(dans etmek)</span></li>
+            <li><input type="text" class="exercises_field" data_answer="o okuyor" placeholder="Он читает"> <span class="mute">(okumak)</span></li>
+            <li><input type="text" class="exercises_field" data_answer="siz biliyorsunuz" placeholder="Вы знаете"> <span class="mute">(bilmek)</span></li>
+            <li><input type="text" class="exercises_field" data_answer="ben dinleniyorum" placeholder="Я отдыхаю" > <span class="mute">(dinlenmek)</span></li>
+  </ol>
+        <h3>Отрицательная форма</h3>
+          <ol>
+            <li><input type="text" class="exercises_field" data_answer="ben bilmiyorum" placeholder="Я не знаю"> <span class="mute">(bilmek)</span></li>
+            <li><input type="text" class="exercises_field" data_answer="sen gelmiyorsun" placeholder="Ты не приходишь"> <span class="mute">(gelmek)</span></li>
+            <li><input type="text" class="exercises_field" data_answer="biz sevmiyoruz" placeholder="Мы не любим"> <span class="mute">(sevmek)</span></li>
+       </ol>
+          <h3>Вопросительная форма</h3>
+          <ol>
+            <li><input type="text" class="exercises_field" data_answer="sen biliyor musun" placeholder="Ты знаешь">? <span class="mute">(bilmek)</span></li>
+            <li><input type="text" class="exercises_field" data_answer="biz geliyor muyuz" placeholder="Мы приезжаем">? <span class="mute">(gelmek)</span></li>
+        </ol>
+        <div class="exercise_footer" >
+            <button type="submit" class="checktest">Проверить</button>
+            <button type="reset">Очистить</button>
+        </div>
+    </form>
 
+</div>
 {% endblock %}

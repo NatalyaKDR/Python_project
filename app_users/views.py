@@ -22,11 +22,11 @@ def main(request):
 
 def get_test(request, test):
     if test=="1":
-        return render(request, 'app_users/test_1.html')
+        return render(request, 'app_users/test_1.html',{'test':test})
     elif test == "2":
-        return render(request, 'app_users/test_2.html')
+        return render(request, 'app_users/test_2.html', {'test':test})
     elif test == "3":
-        return render(request, 'app_users/test_3.html')
+        return render(request, 'app_users/test_3.html', {'test':test})
     else:
         return HttpResponseNotFound("Тест находится в разработке")
 

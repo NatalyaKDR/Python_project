@@ -1,9 +1,38 @@
-{% extends 'app_users/tests.html' %}
+{% extends 'app_users/my_tests.html' %}
 
 {% block title %}Test_2{% endblock %}
 
 {% block body %}
 
-<h2>Тест 2</h2>
+<div class="container">
+<h2 class="text-center"> Тренируем прошедшее время</h2>
+  <form name="test" id="form">
+    <ol>
+      <li>Sen Moskovaya <input type="text" id="ex1" name="ex1" class="exercises_field" data_answer="gittin"
+          placeholder="улетел">. <span class="mute">(Moskova – Москва; gitmek – идти, уходить)</span>
+      </li>
+      <li>Ben ona para <input type="text" id="ex2" name="ex2" class="exercises_field"
+        data_answer="vermedim" placeholder="не дал">. <span class="mute">(para – деньги; vermek – давать)</span>
+     </li>
+      <li>Ben onu <input type="text" id="ex3" name="ex3" class="exercises_field" data_answer="sevdim"
+          placeholder="полюбил">. <span class="mute">(sevmek – любить)</span>
+      </li>
+      <li>Biz evden <input type="text" id="ex4" name="ex4" class="exercises_field" data_answer="gittik"
+          placeholder="ушли">. <span class="mute">(ev – дом; gitmek – уходить,
+          идти)</span>
+      </li>
+      <li>Siz gazeteyi <input type="text" id="ex5" name="ex5" class="exercises_field" data_answer="okudunuz mu"
+          placeholder="прочитали">? <span class="mute">(gazete – газета; okumak – читать)</span>
+      </li>
+      <li>O dün <input type="text" id="ex6" name="ex6" class="exercises_field"
+        data_answer="gelmedi" placeholder="не пришел">. <span class="mute">(dün – вчера; gelmek – приходить)</span>
+     </li>
+    </ol>
+    <div class="exercise_footer">
+      <button type="submit" class="checktest">Проверить</button>
+      <button type="reset" >Очистить</button>
+    </div>
+  </form>
+</div>
 
 {% endblock %}

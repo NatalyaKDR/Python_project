@@ -11,5 +11,5 @@ urlpatterns = [
     path('add/', add, name='add'),
     path('update/<str:pk>/',update, name='update'),
     path('delete/<str:pk>/',delete, name='delete'),
-    path('tests/<test>', get_test, name='test'),
+    path('my_tests/<test>', get_test, name='test'),
 ]

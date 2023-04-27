@@ -1,0 +1,16 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+     <link rel="stylesheet" href="{% static '/app_users/css/mystyle.css' %}">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<script src="{% static '/app_users/js/index.js' %}"></script>
+
+<body>
+{% block body %}{% endblock %}
+<hr>
+<a href="/items/{{ test }}">Назад</a>
+</body>
+</html>
