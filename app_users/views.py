@@ -5,7 +5,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
 from django.http import HttpResponseNotFound
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
 from app_users.forms import CommentForm
@@ -46,39 +46,40 @@ def item_details(request, pk):
 #CRUD
 
 
-
-def add(request):
+def add(request, id_item):
     if not request.user.has_perm('app_users.add_usercomment'):
         raise PermissionDenied()
+    item=get_object_or_404(Item, pk=id_item)
     if request.method=='POST':
         form=CommentForm(request.POST)
-        pk=request.POST.get('item')
-        print(f"объект {request.POST.get('item')}")
         if form.is_valid():
             form.instance.author = request.user  # чтобы user автоматически подставлялся
+            form.instance.item = item
             form.save()
-            return redirect(f'/items/{pk}')
+            return redirect(f'/items/{item.pk}')
     form=CommentForm()
-    context={'form': form}
+    context={'form': form, 'item':item}
     return render(request, 'app_users/add.html', context)
-
-
 
 def update(request,pk):
     if not request.user.has_perm('app_users.change_usercomment'):
         raise PermissionDenied()
     comment = UserComment.objects.get(id=pk)
     form=CommentForm(instance=comment)
+
+    pk = comment.item.pk
+    item = get_object_or_404(Item, pk=pk)
+
     if request.method == 'POST':
-        pk = request.POST.get('item')
         form=CommentForm(request.POST, instance=comment)
         if comment.author != request.user:
             raise PermissionDenied()
         if form.is_valid():
             form.instance.author = request.user  # чтобы user автоматически подставлялся
+            form.instance.item=item
             form.save()
         return redirect(f'/items/{pk}')
-    context={'form':form}
+    context={'form':form, 'item':item}
     return render(request, 'app_users/update.html', context)
 
 
