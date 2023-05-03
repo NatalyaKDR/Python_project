@@ -55,10 +55,9 @@ def add(request):
         pk=request.POST.get('item')
         print(f"объект {request.POST.get('item')}")
         if form.is_valid():
-           object=form.save(commit=False)
-           object.author=request.user #чтобы user автоматически подставлялся
-           object.save()
-           return redirect(f'/items/{pk}')
+            form.instance.author = request.user  # чтобы user автоматически подставлялся
+            form.save()
+            return redirect(f'/items/{pk}')
     form=CommentForm()
     context={'form': form}
     return render(request, 'app_users/add.html', context)
@@ -76,9 +75,8 @@ def update(request,pk):
         if comment.author != request.user:
             raise PermissionDenied()
         if form.is_valid():
-            object = form.save(commit=False)
-            object.author = request.user  # чтобы user автоматически подставлялся
-            object.save()
+            form.instance.author = request.user  # чтобы user автоматически подставлялся
+            form.save()
         return redirect(f'/items/{pk}')
     context={'form':form}
     return render(request, 'app_users/update.html', context)
