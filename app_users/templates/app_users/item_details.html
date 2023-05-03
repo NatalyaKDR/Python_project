@@ -19,9 +19,11 @@
 <ul>
     {% for comment in page_obj %}
     <li>
-        {{comment.text}}
+        {{comment.text}}<span style="font-size: 75%; font-family: monospace;">     автор - {{comment.author}};    дата создания - {{comment.created_at}}</span>
+        {%  if request.user == comment.author %}
         <a href="{% url 'update' comment.id %}">Update</a>
         <a href="{% url 'delete' comment.id %}">Delete</a>
+        {% endif %}
     </li>
     {% endfor %}
 
@@ -39,6 +41,7 @@
 {% endif %}
 
 <a href="{% url 'add' %}" >Добавить комментарий</a>
+
 <br>
 <a href="{% url 'main' %}" >На главную</a>
 

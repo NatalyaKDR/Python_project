@@ -4,7 +4,7 @@ from .models import UserComment
 class CommentForm(ModelForm):
     class Meta:
         model=UserComment
-        fields=['text', 'item']
+        fields=['text', 'item', 'author', ]
 
 
 # class UpdateFile(forms.Form): #загрузка файла

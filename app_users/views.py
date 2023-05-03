@@ -1,6 +1,8 @@
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView, LogoutView
+from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
 from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect
@@ -32,7 +34,7 @@ def get_test(request, test):
 
 def item_details(request, pk):
     item = Item.objects.get(id=pk)
-    comments = item.usercomment_set.order_by('-id')
+    comments = item.usercomments_item.order_by('-id')
 #пагинация
     paginator = Paginator(comments, 3)
     page_number = request.GET.get('page')
@@ -43,33 +45,52 @@ def item_details(request, pk):
 
 #CRUD
 
+
+
 def add(request):
+    if not request.user.has_perm('app_users.add_usercomment'):
+        raise PermissionDenied()
     if request.method=='POST':
         form=CommentForm(request.POST)
         pk=request.POST.get('item')
+        print(f"объект {request.POST.get('item')}")
         if form.is_valid():
-            form.save()
-            return redirect(f'/items/{pk}')
+           object=form.save(commit=False)
+           object.author=request.user #чтобы user автоматически подставлялся
+           object.save()
+           return redirect(f'/items/{pk}')
     form=CommentForm()
     context={'form': form}
     return render(request, 'app_users/add.html', context)
 
+
+
 def update(request,pk):
+    if not request.user.has_perm('app_users.change_usercomment'):
+        raise PermissionDenied()
     comment = UserComment.objects.get(id=pk)
     form=CommentForm(instance=comment)
     if request.method == 'POST':
         pk = request.POST.get('item')
         form=CommentForm(request.POST, instance=comment)
+        if comment.author != request.user:
+            raise PermissionDenied()
         if form.is_valid():
-            form.save()
+            object = form.save(commit=False)
+            object.author = request.user  # чтобы user автоматически подставлялся
+            object.save()
         return redirect(f'/items/{pk}')
     context={'form':form}
     return render(request, 'app_users/update.html', context)
 
 
 def delete(request, pk):
+    if not request.user.has_perm('app_users.delete_usercomment'):
+        raise PermissionDenied()
     comment =UserComment.objects.get(id=pk)
     pk=comment.item.pk
+    if comment.author != request.user:
+        raise PermissionDenied()
     if request.method=="POST":
         comment.delete()
         return redirect(f'/items/{pk}')
