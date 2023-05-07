@@ -7,6 +7,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
+from django.contrib.auth.models import Group
 
 from app_users.forms import CommentForm
 from app_users.models import Item, UserComment
@@ -48,7 +49,7 @@ def item_details(request, pk):
 
 def add(request, id_item):
     if not request.user.has_perm('app_users.add_usercomment'):
-        raise PermissionDenied()
+        return redirect('/login/')
     item=get_object_or_404(Item, pk=id_item)
     if request.method=='POST':
         form=CommentForm(request.POST)
@@ -107,6 +108,15 @@ def MyRegisterView(request): #страничка регистрации
         form=UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
+
+            user = form.save(commit=False)
+
+            user.save()
+
+            user_group = Group.objects.get(name='Registrated_users')
+
+            user.groups.add(user_group)
+
             username=form.cleaned_data.get('username')
             raw_password=form.cleaned_data.get('password1')
             user=authenticate(username=username, password=raw_password)
