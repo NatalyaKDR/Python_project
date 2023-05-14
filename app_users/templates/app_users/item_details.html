@@ -3,12 +3,23 @@
 {% block title %}Details{% endblock %}
 
 {% block body %}
+<div class="container">
 
 <h1>{{item.title}}</h1>
 <br>
-<p>{{item.content}}</p>
+{% if item.photo %}
+<p><img src="{{ item.photo.url }}"></p>
+{% endif %}
+{% autoescape off %}
+{{item.content|linebreaks}}
+{% endautoescape %}
+<br>
+
+{% if item.link %}
+<iframe width="560" height="315" src="{{ item.link }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 <br>
 <a href="/my_tests/{{ item.id }}">Проверь себя</a>
+{% endif %}
 <hr>
 
 <h3>Комментарии</h3>
@@ -19,8 +30,8 @@
 <ul>
     {% for comment in page_obj %}
     <li>
-        {{comment.text}}<span style="font-size: 75%; font-family: monospace;">     автор - {{comment.author}};    дата создания - {{comment.created_at}}</span>
-        {%  if request.user == comment.author %}
+        {{comment.text}}<span style="font-size: 75%; font-family: monospace;">     автор: {{comment.author}};    дата: {{comment.updated_at|date:"d-m-Y H:i:s"}}</span>
+        {%  if request.user == comment.author or request.user.username == "admin" %}
         <a href="{% url 'update' comment.id %}">Update</a>
         <a href="{% url 'delete' comment.id %}">Delete</a>
         {% endif %}
@@ -44,7 +55,7 @@
 
 <br>
 <a href="{% url 'main' %}" >На главную</a>
-
+</div>
 {% endblock %}
 
 

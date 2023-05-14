@@ -45,8 +45,6 @@ def item_details(request, pk):
     return render(request, 'app_users/item_details.html', context)
 
 #CRUD
-
-
 def add(request, id_item):
     if not request.user.has_perm('app_users.add_usercomment'):
         return redirect('/login/')
@@ -62,6 +60,7 @@ def add(request, id_item):
     context={'form': form, 'item':item}
     return render(request, 'app_users/add.html', context)
 
+
 def update(request,pk):
     if not request.user.has_perm('app_users.change_usercomment'):
         raise PermissionDenied()
@@ -73,13 +72,14 @@ def update(request,pk):
 
     if request.method == 'POST':
         form=CommentForm(request.POST, instance=comment)
-        if comment.author != request.user:
+        if request.user.username == "admin" or comment.author == request.user:
+            if form.is_valid():
+                form.instance.author = request.user  # чтобы user автоматически подставлялся
+                form.instance.item=item
+                form.save()
+            return redirect(f'/items/{pk}')
+        else:
             raise PermissionDenied()
-        if form.is_valid():
-            form.instance.author = request.user  # чтобы user автоматически подставлялся
-            form.instance.item=item
-            form.save()
-        return redirect(f'/items/{pk}')
     context={'form':form, 'item':item}
     return render(request, 'app_users/update.html', context)
 
@@ -89,18 +89,19 @@ def delete(request, pk):
         raise PermissionDenied()
     comment =UserComment.objects.get(id=pk)
     pk=comment.item.pk
-    if comment.author != request.user:
-        raise PermissionDenied()
     if request.method=="POST":
-        comment.delete()
-        return redirect(f'/items/{pk}')
-    context={'comment':comment, 'pk':pk}
+        if request.user.username == "admin" or comment.author == request.user:
+            comment.delete()
+            return redirect(f'/items/{pk}')
+        else:
+            raise PermissionDenied()
+    context = {'comment': comment, 'pk': pk}
     return render(request, 'app_users/delete.html', context)
 
 
 #Пользовательская часть
 class MyLoginView(LoginView): #страничка аутентификации
-    template_name = 'app_users/login.html'
+    template_name= 'app_users/login.html'
     redirect_authenticated_user = True
 
 def MyRegisterView(request): #страничка регистрации
@@ -113,7 +114,7 @@ def MyRegisterView(request): #страничка регистрации
 
             user.save()
 
-            user_group = Group.objects.get(name='Registrated_users')
+            user_group = Group.objects.get(name='Registrated_users') #автоматически добавит в группу
 
             user.groups.add(user_group)
 

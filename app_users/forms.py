@@ -6,6 +6,10 @@ class CommentForm(ModelForm):
         model=UserComment
         fields=['text', 'author', ]
 
+# class UserForm(forms.Form):
+#     username=forms.CharField()
+#     password=forms.CharField(widget=forms.PasswordInput)
+
 
 # class UpdateFile(forms.Form): #загрузка файла
 #     title=forms.CharField(max_length=50)

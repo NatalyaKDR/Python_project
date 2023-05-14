@@ -4,9 +4,11 @@ from django.db import models
 # Create your models here.
 
 class Item(models.Model):
-    title=models.CharField('Заголовок', max_length=50)
-    content=models.TextField('Описание', blank=True)
-    is_published=models.BooleanField(default=False)
+    title=models.CharField( max_length=50,  verbose_name="Заголовок")
+    content=models.TextField(blank=True, verbose_name="Содержание")
+    photo=models.ImageField(upload_to='photos/%Y/%m/%d', verbose_name="Фото",blank=True)
+    is_published=models.BooleanField(default=False,  verbose_name="Опубликовано")
+    link=models.URLField(blank=True)
 
     def __str__(self):
         return self.title
